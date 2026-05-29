@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Giám Đốc Chi Nhánh HCM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>if (localStorage.getItem('isLoggedIn') !== 'true') { window.location.href = 'index.html'; }</script>
+</head>
+<body class="bg-slate-50 font-['Lexend'] flex text-slate-800">
+    <div class="w-64 bg-slate-900 text-slate-100 min-h-screen p-5 flex flex-col justify-between">
+        <div>
+            <div class="flex items-center gap-3 px-2 py-4 mb-6 border-b border-slate-800">
+                <i class="fa-solid fa-graduation-cap text-indigo-400 text-2xl"></i>
+                <span class="font-bold text-lg tracking-wide">CAPABILITY HUB</span>
+            </div>
+            <nav class="space-y-1">
+                <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-indigo-600/50 text-sm font-medium"><i class="fa-solid fa-chart-simple w-5"></i> Trang Chủ Tổng Quan</a>
+                <div class="pt-4 pb-2 text-xs font-semibold text-slate-500 uppercase px-4">Báo cáo chi tiết</div>
+                <a href="gdoc-hcm.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-600 text-sm font-medium"><i class="fa-solid fa-user-tie w-5"></i> Giám Đốc CN HCM</a>
+                <a href="gdoc-dnb.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-indigo-600/50 transition text-sm font-medium"><i class="fa-solid fa-user-tie w-5"></i> Giám Đốc CN ĐNB</a>
+                <a href="tpkd-hcm.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-indigo-600/50 transition text-sm font-medium"><i class="fa-solid fa-users-gear w-5"></i> TPKD Hồ Chí Minh</a>
+                <a href="tpkd-dnb.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-indigo-600/50 transition text-sm font-medium"><i class="fa-solid fa-users-gear w-5"></i> TPKD Đông Nam Bộ</a>
+            </nav>
+        </div>
+        <button onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-950/30 rounded-xl text-sm font-medium transition"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button>
+    </div>
+
+    <main class="flex-1 p-8 min-h-screen overflow-y-auto">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Giám Đốc Chi Nhánh Hồ Chí Minh <i class="fa-solid fa-id-card text-indigo-500 text-2xl ml-2"></i></h1>
+            <p class="text-slate-500 mt-1">Biểu đồ mạng nhện năng lực cá nhân chi tiết từ bảng điểm</p>
+        </header>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            
+            <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-100 flex flex-col md:flex-row gap-6 items-center">
+                <div class="w-full md:w-1/2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-base"><i class="fa-solid fa-user"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">Nguyễn Văn Khách</h3>
+                            <span class="text-xs bg-indigo-50 text-indigo-600 font-semibold px-2.5 py-1 rounded-full">Mã NV: GĐHCM01</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2 mt-4 text-sm text-slate-600">
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span><i class="fa-solid fa-angles-right text-xs mr-1 text-slate-400"></i> Năng lực chuyên môn:</span> <span class="font-bold text-slate-800">4.2/5</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span><i class="fa-solid fa-angles-right text-xs mr-1 text-slate-400"></i> Kỹ năng quản lý:</span> <span class="font-bold text-slate-800">4.5/5</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span><i class="fa-solid fa-angles-right text-xs mr-1 text-slate-400"></i> Tư duy chiến lược:</span> <span class="font-bold text-slate-800">4.0/5</span></div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 max-w-[260px]"><canvas id="radarNV1"></canvas></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-100 flex flex-col md:flex-row gap-6 items-center">
+                <div class="w-full md:w-1/2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-base"><i class="fa-solid fa-user"></i></div>
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">Lê Thị B</h3>
+                            <span class="text-xs bg-emerald-50 text-emerald-600 font-semibold px-2.5 py-1 rounded-full">Mã NV: GĐHCM02</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2 mt-4 text-sm text-slate-600">
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span><i class="fa-solid fa-angles-right text-xs mr-1 text-slate-400"></i> Năng lực chuyên môn:</span> <span class="font-bold text-slate-800">3.8/5</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span><i class="fa-solid fa-angles-right text-xs mr-1 text-slate-400"></i> Kỹ năng quản lý:</span> <span class="font-bold text-slate-800">4.0/5</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span><i class="fa-solid fa-angles-right text-xs mr-1 text-slate-400"></i> Tư duy chiến lược:</span> <span class="font-bold text-slate-800">4.5/5</span></div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 max-w-[260px]"><canvas id="radarNV2"></canvas></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const tieuChi = ['Chuyên môn', 'Quản lý', 'Chiến lược', 'Giao tiếp', 'Giải quyết vấn đề'];
+
+        new Chart(document.getElementById('radarNV1'), {
+            type: 'radar',
+            data: {
+                labels: tieuChi,
+                datasets: [{
+                    label: 'Điểm số',
+                    data: [4.2, 4.5, 4.0, 3.8, 4.1], /* Điểm số tương ứng */
+                    backgroundColor: 'rgba(79, 70, 229, 0.15)',
+                    borderColor: '#4f46e5',
+                    pointBackgroundColor: '#4f46e5'
+                }]
+            },
+            options: { scales: { r: { min: 0, max: 5 } } }
+        });
+
+        new Chart(document.getElementById('radarNV2'), {
+            type: 'radar',
+            data: {
+                labels: tieuChi,
+                datasets: [{
+                    label: 'Điểm số',
+                    data: [3.8, 4.0, 4.5, 4.2, 3.9],
+                    backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                    borderColor: '#10b981',
+                    pointBackgroundColor: '#10b981'
+                }]
+            },
+            options: { scales: { r: { min: 0, max: 5 } } }
+        });
+        function logout() { localStorage.removeItem('isLoggedIn'); window.location.href = 'index.html'; }
+    </script>
+</body>
+</html>
